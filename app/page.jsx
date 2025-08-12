@@ -1,20 +1,18 @@
-'use client';
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Rocket, Sparkles, ShieldCheck, Bot, Megaphone, Workflow, ArrowRight, CheckCircle, Mail, Phone, Globe, Video, Image as ImageIcon, PenTool } from "lucide-react";
 
-// Integrations config (public values read at runtime via NEXT_PUBLIC_* envs if you want)
+// Integrations config (reads from NEXT_PUBLIC_* env vars on Vercel)
 const INTEGRATIONS = {
   STRIPE: {
-    STARTER: process.env.NEXT_PUBLIC_STRIPE_STARTER || "",
-    PRO: process.env.NEXT_PUBLIC_STRIPE_PRO || "",
-    VIP: process.env.NEXT_PUBLIC_STRIPE_VIP || "",
+    STARTER: process.env.NEXT_PUBLIC_STRIPE_STARTER || "", // Stripe Checkout URL for Starter $25/mo
+    PRO: process.env.NEXT_PUBLIC_STRIPE_PRO || "",         // Stripe Checkout URL for Pro $50/mo
+    VIP: process.env.NEXT_PUBLIC_STRIPE_VIP || "",         // Stripe Checkout URL for VIP $100/mo
   },
-  CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL || "",
-  ZAPIER_WEBHOOK_URL: process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL || "",
-  GA4_ID: process.env.NEXT_PUBLIC_GA4_ID || "",
-  TIDIO_KEY: process.env.NEXT_PUBLIC_TIDIO_KEY || "",
+  CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL || "", // e.g., https://calendly.com/yourname/intro
+  ZAPIER_WEBHOOK_URL: process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL || "", // optional webhook to receive form data
+  GA4_ID: process.env.NEXT_PUBLIC_GA4_ID || "", // e.g., G-XXXXXXXX
+  TIDIO_KEY: process.env.NEXT_PUBLIC_TIDIO_KEY || "", // optional Tidio public key
 };
 
 // Simple utility
@@ -62,14 +60,14 @@ const Stat = ({ label, value }) => (
   </div>
 );
 
-export default function Page() {
+export default function OSIHome() {
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     website: "",
     niche: "",
-    plan: "Pro ($99/mo)",
+    plan: "Pro ($50/mo)",
     goals: "",
     loading: false,
     submitted: false,
@@ -127,6 +125,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen text-slate-900 bg-gradient-to-b from-slate-50 via-white to-slate-100">
+      {/* Nav */}
       <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b border-slate-200">
         <Section className="flex items-center justify-between py-3">
           <div className="flex items-center gap-2">
@@ -146,13 +145,14 @@ export default function Page() {
         </Section>
       </header>
 
+      {/* Hero */}
       <Section className="py-16">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <motion.h1 initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{duration:0.5}} className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
-              The AI-powered growth hub for small businesses & creators
+              The AI‑powered growth hub for small businesses & creators
             </motion.h1>
-            <p className="mt-4 text-slate-600 text-lg">Plug-and-play content, chatbots, and automated marketing that attract customers while you sleep. Built for local businesses, artists, and community brands.</p>
+            <p className="mt-4 text-slate-600 text-lg">Plug‑and‑play content, chatbots, and automated marketing that attract customers while you sleep. Built for local businesses, artists, and community brands.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="#pricing" className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-xl"><Megaphone size={18}/> See pricing</a>
               <a href="#features" className="inline-flex items-center gap-2 bg-white border border-slate-200 px-5 py-3 rounded-xl"><Workflow size={18}/> How it works</a>
@@ -169,26 +169,28 @@ export default function Page() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <Feature icon={Bot} title="24/7 AI chatbot" desc="Capture leads, answer FAQs, book appointments automatically."/>
                 <Feature icon={Megaphone} title="Auto content engine" desc="Weekly posts, captions, and hashtags created & scheduled."/>
-                <Feature icon={Video} title="Short-form video" desc="Clips for Reels/TikTok auto-generated from your footage."/>
-                <Feature icon={ShieldCheck} title="Done-for-you setup" desc="We install, brand, and maintain your automations."/>
+                <Feature icon={Video} title="Short‑form video" desc="Clips for Reels/TikTok auto‑generated from your footage."/>
+                <Feature icon={ShieldCheck} title="Done‑for‑you setup" desc="We install, brand, and maintain your automations."/>
               </div>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* Features */}
       <Section id="features" className="py-12">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Everything you need to grow — done by AI, guided by humans</h2>
         <div className="grid md:grid-cols-3 gap-5">
-          <Feature icon={PenTool} title="Captions & blogs" desc="High-quality copy for offers, launches, and SEO, tailored to your voice."/>
-          <Feature icon={ImageIcon} title="Brand graphics" desc="On-brand carousels, flyers, menus, and stories built from templates."/>
+          <Feature icon={PenTool} title="Captions & blogs" desc="High‑quality copy for offers, launches, and SEO, tailored to your voice."/>
+          <Feature icon={ImageIcon} title="Brand graphics" desc="On‑brand carousels, flyers, menus, and stories built from templates."/>
           <Feature icon={Globe} title="Landing & funnels" desc="Lead capture pages + email sequences that nurture and convert."/>
         </div>
       </Section>
 
+      {/* AI Growth Wizard */}
       <Section id="wizard" className="py-12">
         <h2 className="text-2xl md:text-3xl font-bold mb-2">AI Growth Wizard</h2>
-        <p className="text-slate-600 mb-6">Discover your niche, audience, hooks, content plan, and best posting times — auto-generated from a few inputs.</p>
+        <p className="text-slate-600 mb-6">Discover your niche, audience, hooks, content plan, and best posting times — auto‑generated from a few inputs.</p>
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h3 className="font-semibold mb-2">1) Describe your business</h3>
@@ -198,10 +200,10 @@ export default function Page() {
               <button onClick={()=>{
                 const niche = (form.niche || 'local business').toLowerCase();
                 const suggestion = {
-                  position: `Positioning: The go-to ${niche} for busy locals who value quality + convenience`,
+                  position: `Positioning: The go‑to ${niche} for busy locals who value quality + convenience`,
                   audiences: ['Nearby residents','Office workers','Event planners','Families'],
-                  hooks: ['Limited-time bundle','New client discount','Weekend special'],
-                  content: ['Before/after showcase','Customer story','How-to tip','Behind-the-scenes'],
+                  hooks: ['Limited‑time bundle','New client discount','Weekend special'],
+                  content: ['Before/after showcase','Customer story','How‑to tip','Behind‑the‑scenes'],
                   bestTimes: { Instagram:'11:00–13:00, 19:00–21:00', TikTok:'18:00–22:00', Facebook:'12:00–14:00', LinkedIn:'Tue–Thu 08:00–10:00', YouTubeShorts:'17:00–20:00' }
                 };
                 setWizard(suggestion);
@@ -223,20 +225,21 @@ export default function Page() {
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-5">
-              <h4 className="font-semibold mb-2">30-day content plan</h4>
+              <h4 className="font-semibold mb-2">30‑day content plan</h4>
               <ul className="text-sm list-disc pl-5 text-slate-700 space-y-1">
                 {(wizard?.content || []).map((c,i)=>(<li key={i}>{c}</li>))}
               </ul>
               <h4 className="font-semibold mt-4 mb-2">Best times to post (starter heuristic)</h4>
               <ul className="text-sm list-disc pl-5 text-slate-700 space-y-1">
-                {wizard ? Object.entries(wizard.bestTimes).map(([k,v])=>(<li key={k}><strong>{k}:</strong> {v}</li>)) : <li>Run Generate to see platform-specific times.</li>}
+                {wizard ? Object.entries(wizard.bestTimes).map(([k,v])=>(<li key={k}><strong>{k}:</strong> {v}</li>)) : <li>Run Generate to see platform‑specific times.</li>}
               </ul>
-              <p className="text-xs text-slate-500 mt-3">Times will auto-optimize after accounts connect and data flows in.</p>
+              <p className="text-xs text-slate-500 mt-3">Times will auto‑optimize after accounts connect and data flows in.</p>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* Pricing */}
       <Section id="pricing" className="py-12">
         <div className="mb-6">
           <h2 className="text-2xl md:text-3xl font-bold">Simple, transparent pricing</h2>
@@ -245,38 +248,39 @@ export default function Page() {
         <div className="grid md:grid-cols-3 gap-6">
           <PricingCard
             name="Starter"
-            price={29}
+            price={25}
             tagline="DIY with AI templates"
             features={["8 social posts/mo", "Caption + hashtag sets", "1 brand style kit", "Email support"]}
             cta="Try Starter"
           />
           <PricingCard
             name="Pro"
-            price={99}
-            tagline="Done-with-you growth"
+            price={50}
+            tagline="Done‑with‑you growth"
             features={["15 social posts/mo", "AI chatbot (FAQs + leads)", "1 landing page + email drip", "Monthly performance report"]}
             cta="Choose Pro"
             highlight
           />
           <PricingCard
             name="VIP"
-            price={299}
-            tagline="Done-for-you automation"
+            price={100}
+            tagline="Done‑for‑you automation"
             features={["45 posts + 4 videos/mo", "Chatbot + bookings + CRM", "2 funnels + A/B testing", "Quarterly strategy call"]}
             cta="Go VIP"
           />
         </div>
       </Section>
 
+      {/* Onboarding */}
       <Section id="onboard" className="py-12">
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-2">Onboard in minutes</h2>
             <p className="text-slate-600 mb-6">Tell us about your business and pick a plan. We’ll install your chatbot, content calendar, and funnel within 48 hours.</p>
             <ul className="space-y-2">
-              <Check>Self-serve intake → instant workspace</Check>
+              <Check>Self‑serve intake → instant workspace</Check>
               <Check>Brand kit import (logo, colors, fonts)</Check>
-              <Check>Stripe-ready checkout (plug your link)</Check>
+              <Check>Stripe‑ready checkout (plug your link)</Check>
               <Check>CRM & scheduling integration (Calendly, Google, etc.)</Check>
             </ul>
           </div>
@@ -306,9 +310,9 @@ export default function Page() {
               <div className="sm:col-span-2">
                 <label className="text-sm font-medium">Choose a plan</label>
                 <select name="plan" value={form.plan} onChange={handle} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300">
-                  <option>Starter ($29/mo)</option>
-                  <option>Pro ($99/mo)</option>
-                  <option>VIP ($299/mo)</option>
+                  <option>Starter ($25/mo)</option>
+                  <option>Pro ($50/mo)</option>
+                  <option>VIP ($100/mo)</option>
                 </select>
               </div>
               <div className="sm:col-span-2">
@@ -325,8 +329,9 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Scheduler */}
       <Section id="scheduler" className="py-12">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">Ad Builder & Auto-Scheduler</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">Ad Builder & Auto‑Scheduler</h2>
         <p className="text-slate-600 mb-6">Create ads/content, pick platforms, choose exact times or let AI choose. We’ll queue and post at schedule.</p>
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
@@ -337,13 +342,20 @@ export default function Page() {
                 const el = document.getElementById('adText');
                 if (el && 'value' in el) {
                   const base = form.niche || 'local business';
-                  el.value = `🔥 ${base.toUpperCase()} SPECIAL\n\nHook: Limited-time offer for first 25 customers.\nValue: Save time & get premium results.\nProof: 500+ happy locals.\nCTA: Book today → link in bio / call now.`;
+                  el.value = `🔥 ${base.toUpperCase()} SPECIAL
+
+Hook: Limited‑time offer for first 25 customers.
+Value: Save time & get premium results.
+Proof: 500+ happy locals.
+CTA: Book today → link in bio / call now.`;
                 }
               }} className="px-3 py-2 rounded-xl bg-slate-900 text-white text-sm">AI draft</button>
               <button onClick={()=>{
                 const el = document.getElementById('adText');
                 if (el && 'value' in el) {
-                  el.value += `\n\nHashtags: #${(form.niche||'local').replace(/\s+/g,'')} #SupportLocal #Deals #Community`;
+                  el.value += `
+
+Hashtags: #${(form.niche||'local').replace(/\s+/g,'')} #SupportLocal #Deals #Community`;
                 }
               }} className="px-3 py-2 rounded-xl bg-slate-100 text-slate-900 text-sm border border-slate-200">Add hashtags</button>
             </div>
@@ -363,13 +375,13 @@ export default function Page() {
               ))}
             </div>
             <div className="mt-3 flex items-center gap-2">
-              <input id="useAI" type="checkbox" defaultChecked /> <span className="text-sm">Use AI-recommended time</span>
+              <input id="useAI" type="checkbox" defaultChecked /> <span className="text-sm">Use AI‑recommended time</span>
             </div>
             <div className="mt-2 grid grid-cols-2 gap-2">
               <input id="date" type="date" className="rounded-xl border border-slate-300 px-3 py-2 text-sm" />
               <input id="time" type="time" className="rounded-xl border border-slate-300 px-3 py-2 text-sm" />
             </div>
-            <button onClick={async ()=>{
+            <button onClick={()=>{
               const txtEl = document.getElementById('adText');
               const useAIEl = document.getElementById('useAI');
               const dateEl = document.getElementById('date');
@@ -378,21 +390,12 @@ export default function Page() {
               const useAI = (useAIEl && 'checked' in useAIEl) ? useAIEl.checked : true;
               const date = (dateEl && 'value' in dateEl) ? dateEl.value : '';
               const time = (timeEl && 'value' in timeEl) ? (timeEl.value || '11:30') : '11:30';
-              const when = useAI ? 'AI-optimized' : `${date} ${time}`;
-
-              try {
-                await fetch('/api/schedule', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ content: txt, when, platforms: ['Instagram','Facebook'] })
-                });
-              } catch (e) {}
-
+              const when = useAI ? 'AI‑optimized' : `${date} ${time}`;
               const item = { id: Date.now(), content: txt || '(no text)', when, status: 'scheduled'};
               setQueue([item, ...queue]);
               alert('Queued! Check the queue panel.');
             }} className="mt-4 w-full inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl">Schedule post</button>
-            <p className="text-xs text-slate-500 mt-2">Posting pipeline: this calls our serverless endpoint, which forwards to Buffer using your server-side key.</p>
+            <p className="text-xs text-slate-500 mt-2">Real posting requires connecting accounts in settings; this UI is ready for Buffer API hookup.</p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
@@ -412,6 +415,7 @@ export default function Page() {
         <p className="text-xs text-slate-500 mt-4">Posting pipeline: this button will call a serverless endpoint that forwards to the Buffer API using your profile IDs. Keys live in environment variables—never in the browser.</p>
       </Section>
 
+      {/* Book a call (Calendly) */}
       {INTEGRATIONS.CALENDLY_URL && (
         <Section id="book" className="py-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Prefer to talk first?</h2>
@@ -422,6 +426,7 @@ export default function Page() {
         </Section>
       )}
 
+      {/* Social proof */}
       <Section className="py-12">
         <div className="grid md:grid-cols-3 gap-6">
           {["We booked out two weekends in 3 weeks.", "Finally posting consistently without the headache.", "The chatbot now handles 70% of FAQs."].map((quote, i)=> (
@@ -433,6 +438,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Analytics */}
       <Section id="analytics" className="py-12">
         <h2 className="text-2xl md:text-3xl font-bold mb-2">Performance & Audience Analytics</h2>
         <p className="text-slate-600 mb-6">Once accounts are connected, this dashboard shows reach, clicks, spend, and audience breakdown (gender/age/location) across platforms.</p>
@@ -473,6 +479,7 @@ export default function Page() {
         <p className="text-xs text-slate-500 mt-4">Demo data shown. Connect Meta, TikTok, YouTube, Google, LinkedIn to populate live metrics. GA4 + UTM tagging will align clicks and conversions.</p>
       </Section>
 
+      {/* FAQ */}
       <Section id="faq" className="py-12">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">FAQ</h2>
         <div className="grid md:grid-cols-2 gap-6">
@@ -490,11 +497,12 @@ export default function Page() {
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white/80 p-5">
             <h3 className="font-semibold mb-2">Can I cancel anytime?</h3>
-            <p className="text-slate-600">Yes, plans are month-to-month. No long-term contracts.</p>
+            <p className="text-slate-600">Yes, plans are month‑to‑month. No long‑term contracts.</p>
           </div>
         </div>
       </Section>
 
+      {/* Footer */}
       <footer className="py-10 border-t border-slate-200">
         <Section className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-slate-600">© {new Date().getFullYear()} Our Social Image. All rights reserved.</div>
