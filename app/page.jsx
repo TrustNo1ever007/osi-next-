@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Rocket, Sparkles, ShieldCheck, Bot, Megaphone, Workflow, ArrowRight, CheckCircle, Mail, Phone, Globe, Video, Image as ImageIcon, PenTool } from "lucide-react";
@@ -5,15 +6,16 @@ import { Rocket, Sparkles, ShieldCheck, Bot, Megaphone, Workflow, ArrowRight, Ch
 // Integrations config (reads from NEXT_PUBLIC_* env vars on Vercel)
 const INTEGRATIONS = {
   STRIPE: {
-    STARTER: process.env.NEXT_PUBLIC_STRIPE_STARTER || "", // Stripe Checkout URL for Starter $25/mo
-    PRO: process.env.NEXT_PUBLIC_STRIPE_PRO || "",         // Stripe Checkout URL for Pro $50/mo
-    VIP: process.env.NEXT_PUBLIC_STRIPE_VIP || "",         // Stripe Checkout URL for VIP $100/mo
+    STARTER: process.env.NEXT_PUBLIC_STRIPE_STARTER || "",
+    PRO: process.env.NEXT_PUBLIC_STRIPE_PRO || "",
+    VIP: process.env.NEXT_PUBLIC_STRIPE_VIP || "",
   },
-  CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL || "", // e.g., https://calendly.com/yourname/intro
-  ZAPIER_WEBHOOK_URL: process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL || "", // optional webhook to receive form data
-  GA4_ID: process.env.NEXT_PUBLIC_GA4_ID || "", // e.g., G-XXXXXXXX
-  TIDIO_KEY: process.env.NEXT_PUBLIC_TIDIO_KEY || "", // optional Tidio public key
+  CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL || "",
+  ZAPIER_WEBHOOK_URL: process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL || "",
+  GA4_ID: process.env.NEXT_PUBLIC_GA4_ID || "",
+  TIDIO_KEY: process.env.NEXT_PUBLIC_TIDIO_KEY || "",
 };
+
 
 // Simple utility
 const Section = ({ id, children, className = "" }) => (
