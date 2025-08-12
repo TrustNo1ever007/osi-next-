@@ -7,15 +7,14 @@ import { Rocket, Sparkles, ShieldCheck, Bot, Megaphone, Workflow, ArrowRight, Ch
 const INTEGRATIONS = {
   STRIPE: {
     STARTER: process.env.NEXT_PUBLIC_STRIPE_STARTER || "",
-    PRO: process.env.NEXT_PUBLIC_STRIPE_PRO || "",
-    VIP: process.env.NEXT_PUBLIC_STRIPE_VIP || "",
+    PRO:     process.env.NEXT_PUBLIC_STRIPE_PRO     || "",
+    VIP:     process.env.NEXT_PUBLIC_STRIPE_VIP     || "",
   },
-  CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL || "",
+  CALENDLY_URL:       process.env.NEXT_PUBLIC_CALENDLY_URL       || "",
   ZAPIER_WEBHOOK_URL: process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL || "",
-  GA4_ID: process.env.NEXT_PUBLIC_GA4_ID || "",
-  TIDIO_KEY: process.env.NEXT_PUBLIC_TIDIO_KEY || "",
+  GA4_ID:             process.env.NEXT_PUBLIC_GA4_ID             || "",
+  TIDIO_KEY:          process.env.NEXT_PUBLIC_TIDIO_KEY          || "",
 };
-
 
 // Simple utility
 const Section = ({ id, children, className = "" }) => (
