@@ -1,75 +1,55 @@
-// app/page.jsx
-export default function Home() {
-  const items = [
-    {
-      title: "Creator & brand growth",
-      desc: "Strategy, content engines, and audience building that compound.",
-    },
-    {
-      title: "Automations that save time",
-      desc: "CRM, email, content scheduling, and back-office workflows.",
-    },
-    {
-      title: "Instant storefronts",
-      desc: "Shopify integrations, offers, bundles, and upsell flows.",
-    },
-  ];
+// app/book/page.jsx
+'use client';
+import { useMemo } from 'react';
+
+// If you set NEXT_PUBLIC_CALENDLY_URL in Vercel, we'll use it.
+// Otherwise we fall back to the link you sent.
+const FALLBACK = 'https://calendly.com/admin-oursocialimage/30min';
+
+export default function BookPage() {
+  const url = process.env.NEXT_PUBLIC_CALENDLY_URL || FALLBACK;
+
+  // Add styling/brand + embed_domain for Calendly
+  const src = useMemo(() => {
+    const host =
+      typeof window === 'undefined' ? 'osi-next-app.vercel.app' : window.location.hostname;
+    const q = new URLSearchParams({
+      embed_domain: host,
+      embed_type: 'Inline',
+      background_color: 'ffffff',
+      primary_color: '0f172a',
+      text_color: '0f172a',
+      hide_gdpr_banner: '1',
+    });
+    return `${url}?${q.toString()}`;
+  }, [url]);
 
   return (
-    <div className="py-14">
-      {/* Hero */}
-      <section className="text-center">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">
-            AI-powered growth for creators, businesses, and brands
-          </h1>
-          <p className="mt-4 text-slate-600">
-            We plan, build, and automate your content + marketing so you can focus on the work only you can do.
-          </p>
+    <div className="py-10">
+      <h1 className="text-3xl font-semibold tracking-tight">Book a 30‑minute call</h1>
+      <p className="mt-2 text-slate-600">
+        Pick a time that works for you. We’ll confirm instantly.
+      </p>
 
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <a
-              href="/book"
-              className="rounded-xl bg-slate-900 text-white px-5 py-3 text-sm hover:bg-slate-800"
-            >
-              Book a 30‑minute call
-            </a>
-            <a
-              href="#how-it-works"
-              className="rounded-xl border border-slate-300 px-5 py-3 text-sm text-slate-700 hover:bg-slate-50"
-            >
-              How it works
-            </a>
-          </div>
-        </div>
-      </section>
+      <div className="mt-6 rounded-2xl border border-slate-200 overflow-hidden">
+        <iframe
+          title="Calendly Scheduling"
+          src={src}
+          width="100%"
+          height="820"
+          className="w-full"
+          style={{ minHeight: 820 }}
+        />
+      </div>
 
-      {/* Value props */}
-      <section className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((it) => (
-          <div key={it.title} className="rounded-2xl border border-slate-200 p-6">
-            <h3 className="font-medium">{it.title}</h3>
-            <p className="mt-2 text-sm text-slate-600">{it.desc}</p>
-          </div>
-        ))}
-      </section>
-
-      {/* Simple process */}
-      <section id="how-it-works" className="mt-16">
-        <h2 className="text-xl font-semibold">How it works</h2>
-        <ol className="mt-4 space-y-4 text-slate-700">
-          <li><span className="font-medium">1) Kickoff call:</span> we clarify goals, audience, offers, and quick wins.</li>
-          <li><span className="font-medium">2) Build:</span> we set up content systems, automations, and storefronts.</li>
-          <li><span className="font-medium">3) Launch + iterate:</span> dashboard reporting and weekly optimizations.</li>
-        </ol>
-
-        <a
-          href="/book"
-          className="mt-8 inline-block rounded-xl bg-slate-900 text-white px-5 py-3 text-sm hover:bg-slate-800"
-        >
-          Book your call
+      {/* Fallback link for script/iframe blockers */}
+      <p className="mt-4 text-sm">
+        Having trouble?{' '}
+        <a href={url} className="text-slate-900 underline">
+          Open Calendly in a new tab
         </a>
-      </section>
+        .
+      </p>
     </div>
   );
 }
