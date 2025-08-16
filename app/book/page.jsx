@@ -1,53 +1,55 @@
 // app/book/page.jsx
-"use client";
+'use client';
+import { useMemo } from 'react';
 
-import { useMemo } from "react";
-
-const FALLBACK_URL = "https://calendly.com/admin-oursocialimage/30min";
+// If you set NEXT_PUBLIC_CALENDLY_URL in Vercel, we'll use it.
+// Otherwise we fall back to the link you sent.
+const FALLBACK = 'https://calendly.com/admin-oursocialimage/30min';
 
 export default function BookPage() {
-  // Read from env if present, otherwise fallback
-  const calendlyUrl =
-    (typeof window !== "undefined" &&
-      process.env.NEXT_PUBLIC_CALENDLY_URL) ||
-    FALLBACK_URL;
+  const url = process.env.NEXT_PUBLIC_CALENDLY_URL || FALLBACK;
 
-  // Create Calendly embed URL with style params
+  // Add styling/brand + embed_domain for Calendly
   const src = useMemo(() => {
-    const url = new URL(calendlyUrl);
-    // Optional theming
-    url.searchParams.set("embed_type", "Inline");
-    url.searchParams.set("primary_color", "0f172a");  // slate-900
-    url.searchParams.set("text_color", "0f172a");
-    url.searchParams.set("background_color", "ffffff");
-    return url.toString();
-  }, [calendlyUrl]);
+    const host =
+      typeof window === 'undefined' ? 'osi-next-app.vercel.app' : window.location.hostname;
+    const q = new URLSearchParams({
+      embed_domain: host,
+      embed_type: 'Inline',
+      background_color: 'ffffff',
+      primary_color: '0f172a',
+      text_color: '0f172a',
+      hide_gdpr_banner: '1',
+    });
+    return `${url}?${q.toString()}`;
+  }, [url]);
 
   return (
-    <section style={{ maxWidth: 1100, margin: "24px auto", padding: "0 20px" }}>
-      <h1 style={{ fontSize: 32, marginBottom: 10 }}>Book a 30-Minute Call</h1>
-      <p style={{ color: "#555", marginBottom: 20 }}>
-        Pick a time that works for you. You’ll get a calendar invite automatically.
+    <div className="py-10">
+      <h1 className="text-3xl font-semibold tracking-tight">Book a 30‑minute call</h1>
+      <p className="mt-2 text-slate-600">
+        Pick a time that works for you. We’ll confirm instantly.
       </p>
 
-      <div style={{
-        border: "1px solid #eee",
-        borderRadius: 12,
-        overflow: "hidden",
-        minHeight: 740
-      }}>
-        {/* Calendly inline embed */}
+      <div className="mt-6 rounded-2xl border border-slate-200 overflow-hidden">
         <iframe
-          title="Calendly Booking"
+          title="Calendly Scheduling"
           src={src}
-          style={{
-            width: "100%",
-            height: "100%",
-            minHeight: 740,
-            border: "0",
-          }}
+          width="100%"
+          height="820"
+          className="w-full"
+          style={{ minHeight: 820 }}
         />
       </div>
-    </section>
+
+      {/* Fallback link for script/iframe blockers */}
+      <p className="mt-4 text-sm">
+        Having trouble?{' '}
+        <a href={url} className="text-slate-900 underline">
+          Open Calendly in a new tab
+        </a>
+        .
+      </p>
+    </div>
   );
 }
