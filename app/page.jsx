@@ -1,4 +1,4 @@
-// app/page.jsx
+
 'use client';
 import React, { useEffect, useMemo } from 'react';
 
