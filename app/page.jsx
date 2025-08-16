@@ -1,67 +1,52 @@
+// app/page.jsx
 'use client';
-
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 export default function Page() {
-  // Use env var if set, otherwise fall back to your live link
-  const CAL_URL =
-    process.env.NEXT_PUBLIC_CALENDLY_URL ||
-    'https://calendly.com/admin-oursocialimage/30min';
+  // Your Calendly event link (hard-coded so it works immediately)
+  const CAL_URL = 'https://calendly.com/admin-oursocialimage/30min';
 
+  // Build the Calendly data-url with the right domain + options
   const embedUrl = useMemo(() => {
-    const host =
-      typeof window === 'undefined'
-        ? 'osi-next-app.vercel.app' // server-side fallback
-        : window.location.hostname;
+    const host = typeof window === 'undefined' ? 'localhost' : window.location.hostname;
 
     const params = new URLSearchParams({
       embed_domain: host,
       embed_type: 'inline',
-      primary_color: '0f172a',  // dark slate
+      primary_color: '0f172a',
       text_color: '0f172a',
       background_color: 'ffffff',
-      // nice-to-haves (uncomment if you prefer)
-      // hide_event_type_details: '1',
-      // hide_gdpr_banner: '1',
+      hide_gdpr_banner: '1',
     });
 
     return `${CAL_URL}?${params.toString()}`;
-  }, [process.env.NEXT_PUBLIC_CALENDLY_URL]);
+  }, []);
+
+  // Load Calendly’s script once so the inline widget renders
+  useEffect(() => {
+    const id = 'calendly-widget-js';
+    if (!document.getElementById(id)) {
+      const s = document.createElement('script');
+      s.id = id;
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
+  }, []);
 
   return (
-    <main
-      className="mx-auto max-w-5xl px-4 py-10"
-      style={{ fontFamily: 'ui-sans-serif, system-ui, -apple-system' }}
-    >
-      <h1 className="text-3xl font-semibold tracking-tight">Book a 30‑Minute Call</h1>
-      <p className="mt-2 text-slate-600">
-        Pick a time that works for you. You’ll get a calendar invite and reminder
-        automatically.
+    <main className="max-w-5xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-3">Book a 30-minute call</h1>
+      <p className="text-slate-600 mb-6">
+        Pick a time that works for you. We’ll confirm instantly.
       </p>
 
-      <div className="mt-8 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <iframe
-          src={embedUrl}
-          title="Calendly Scheduling"
-          width="100%"
-          height="780"
-          frameBorder="0"
-          style={{ minWidth: 320, display: 'block' }}
-        />
-      </div>
-
-      <p className="mt-4 text-sm text-slate-500">
-        Having trouble loading the calendar?{' '}
-        <a
-          href={CAL_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-indigo-600 underline"
-        >
-          Open Calendly in a new tab
-        </a>
-        .
-      </p>
+      {/* Calendly inline widget */}
+      <div
+        className="calendly-inline-widget rounded-xl border border-slate-200"
+        data-url={embedUrl}
+        style={{ minWidth: '320px', height: '760px' }}
+      />
     </main>
   );
 }
